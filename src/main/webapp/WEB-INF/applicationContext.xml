@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+ 
+    <!--   
+    <bean id="bookDao" class="edu.mum.ea.bookstore.dao.BookDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="orderDao" class="edu.mum.ea.bookstore.dao.OrderDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="categoryDao" class="edu.mum.ea.bookstore.dao.CategoryDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="accountDaoDao" class="edu.mum.ea.bookstore.dao.AccountDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="initialDataSetup" class="edu.mum.ea.bookstore.domain.support.InitialDataSetup" init-method="initialize">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    -->            
+    <!-- import security config -->
+    <import resource="SpringSecurity.xml" />
+    
+    <!-- needed for security tag lib expression support -->
+    <bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" /> 
+
+        
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="hibernateProperties" ref="hibernateProperties" />
+        <!-- OR mapping files. -->
+        <property name="annotatedClasses">
+            <list>
+                <value>edu.mum.ea.bookstore.domain.Account</value>
+                <value>edu.mum.ea.bookstore.domain.Address</value>
+                <value>edu.mum.ea.bookstore.domain.Book</value>
+                <value>edu.mum.ea.bookstore.domain.Category</value>
+                <value>edu.mum.ea.bookstore.domain.Order</value>
+                <value>edu.mum.ea.bookstore.domain.OrderDetail</value> 
+                <value>edu.mum.ea.bookstore.domain.Permission</value>
+                <value>edu.mum.ea.bookstore.domain.Role</value>
+                  
+            </list>
+        </property>
+    </bean>
+    
+
+    <!-- the datasource -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/bookstore" />
+        <property name="username" value="root" />
+       <property name="password" value="8706123" />
+         <!--<property name="password" value="dipesh28" />-->
+    </bean>
+
+    <!-- hibernate Properties -->
+    <bean id="hibernateProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="connection.pool_size">1</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
+                <prop key="hibernate.search.default.indexBase">c:\lucene\indexes</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                
+            </props>
+        </property>
+    </bean>
+
+    <bean id="txManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <!-- look for transaction annotations -->
+    <tx:annotation-driven transaction-manager="txManager" />
+    
+    <!-- manually create the Service here -->
+    
+</beans>
