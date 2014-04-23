@@ -14,16 +14,19 @@ import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Nazanin
  */
 @Repository("bookSearch")
+@Transactional(propagation=Propagation.MANDATORY)
 public class SearchDao {
     @Autowired
     private SessionFactory sessionFactory;
-
+    @Transactional(propagation=Propagation.SUPPORTS)
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

@@ -52,7 +52,6 @@
                 <value>edu.mum.ea.bookstore.domain.Category</value>
                 <value>edu.mum.ea.bookstore.domain.Order</value>
                 <value>edu.mum.ea.bookstore.domain.OrderDetail</value> 
-                <value>edu.mum.ea.bookstore.domain.Permission</value>
                 <value>edu.mum.ea.bookstore.domain.Role</value>
                   
             </list>
@@ -66,8 +65,8 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/bookstore" />
         <property name="username" value="root" />
-       <property name="password" value="8706123" />
-         <!--<property name="password" value="dipesh28" />-->
+        <property name="password" value="8706123" />
+        <!--<property name="password" value="dipesh28" />-->
     </bean>
 
     <!-- hibernate Properties -->
@@ -84,7 +83,7 @@
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.indexBase">c:\lucene\indexes</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
+                <!--  <prop key="hibernate.current_session_context_class">thread</prop>-->
                 
             </props>
         </property>
@@ -98,6 +97,13 @@
     <!-- look for transaction annotations -->
     <tx:annotation-driven transaction-manager="txManager" />
     
-    <!-- manually create the Service here -->
+    <bean id="transactionTemplate"
+          class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="isolationLevelName" value="ISOLATION_READ_UNCOMMITTED"/>
+        <property name="timeout" value="30"/>
+        <property name="transactionManager" ref="txManager"/>
+    </bean>
+    
+  
     
 </beans>

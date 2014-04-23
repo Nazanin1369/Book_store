@@ -18,6 +18,8 @@ import edu.mum.ea.bookstore.domain.Order;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Hibernate based {@link OrderRepository} implementation.
@@ -27,11 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 @Repository("orderDao")
+@Transactional(propagation=Propagation.MANDATORY)
 public class OrderDaoImpl implements OrderDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
+    @Transactional(propagation=Propagation.SUPPORTS)
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

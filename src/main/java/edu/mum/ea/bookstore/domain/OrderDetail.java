@@ -64,11 +64,13 @@ public class OrderDetail implements Serializable {
         this.book = book;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         if (this.book != null) {
-            return this.book.getPrice().multiply(new BigDecimal(this.quantity));
+            Double price = this.book.getPrice();
+            Double total = price * this.quantity;
+            return total;
         }
-        return BigDecimal.ZERO;
+        return 0.0;
     }
 
 }

@@ -29,6 +29,8 @@ import org.hibernate.SessionFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Hibernate implementation for the {@link BookRepository}.
@@ -36,12 +38,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author Nazanin
  */
 @Repository("bookDao")
+@Transactional(propagation=Propagation.MANDATORY)
 public class BookDaoImpl implements BookDao {
 
     @Autowired
     //@Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
-
+     @Transactional(propagation=Propagation.SUPPORTS)
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

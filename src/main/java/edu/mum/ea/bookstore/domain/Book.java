@@ -52,7 +52,7 @@ public class Book implements Serializable {
     @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String title;
     private String description;
-    private BigDecimal price;
+    private Double price;
     private Integer year;
      @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
     private String author;
@@ -81,11 +81,11 @@ public class Book implements Serializable {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return this.price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.mum.ea.bookstore.domain.Account;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Hibernate based {@link AccountRepository} implementation.
@@ -20,11 +22,12 @@ import edu.mum.ea.bookstore.domain.Account;
  *
  */
 @Repository("accountDao")
+@Transactional(propagation=Propagation.MANDATORY)
 public class AccountDaoImpl implements AccountDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
+    @Transactional(propagation=Propagation.SUPPORTS)
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

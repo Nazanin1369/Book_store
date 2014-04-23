@@ -17,6 +17,8 @@ import edu.mum.ea.bookstore.domain.Category;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Hibernate based {@link CategoryRepository} implementation.
@@ -25,11 +27,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 @Repository("categoryDao")
+@Transactional(propagation=Propagation.MANDATORY)
 public class CategoryDaoImpl implements CategoryDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
+    @Transactional(propagation=Propagation.SUPPORTS)
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

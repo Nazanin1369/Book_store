@@ -34,8 +34,6 @@ public class Role implements Serializable {
 
 	private String role;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Permission> permissions = new ArrayList<Permission>();
 
 	public Role() {
 		// For ORM
@@ -57,12 +55,5 @@ public class Role implements Serializable {
 		this.role = role;
 	}
 
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
 }
 

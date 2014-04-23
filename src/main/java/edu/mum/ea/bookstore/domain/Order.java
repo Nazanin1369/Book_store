@@ -70,7 +70,7 @@ public class Order implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date deliveryDate;
 
-    private BigDecimal totalOrderPrice = null;
+    private Double totalOrderPrice = null;
 
     // One to many creates a join table by default, prevent this as
     // order detail is our specific join table
@@ -147,7 +147,7 @@ public class Order implements Serializable {
         this.deliveryDate = deliveryDate;
     }
 
-    public BigDecimal getTotalOrderPrice() {
+    public Double getTotalOrderPrice() {
         return this.totalOrderPrice;
     }
 
@@ -163,18 +163,17 @@ public class Order implements Serializable {
      * Update the order details and update the total price. If the quantity is 0 or less the order detail is removed from the list.
      */
     public void updateOrderDetails() {
-        BigDecimal total = BigDecimal.ZERO;
+        Double total = 0.0;
         Iterator<OrderDetail> details = this.orderDetails.iterator();
         while (details.hasNext()) {
             OrderDetail detail = details.next();
             if (detail.getQuantity() <= 0) {
                 details.remove();
             } else {
-                total = total.add(detail.getPrice());
+                total = total + detail.getPrice();
 
             }
         }
-        total.setScale(2, RoundingMode.HALF_UP);
         this.totalOrderPrice = total;
     }
 
@@ -183,7 +182,7 @@ public class Order implements Serializable {
             if (this.totalOrderPrice == null) {
                 this.totalOrderPrice = detail.getPrice();
             } else {
-                this.totalOrderPrice = this.totalOrderPrice.add(detail.getPrice());
+                this.totalOrderPrice = this.totalOrderPrice + detail.getPrice();
             }
         }
     }
