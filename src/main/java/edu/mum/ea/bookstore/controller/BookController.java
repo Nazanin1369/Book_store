@@ -24,47 +24,60 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/book")
 public class BookController {
 
-    //@Resource
-    //private IBookDao bookDao;
     @Resource
     private BookstoreService bookService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getAll(Model model) {
-               //model.addAttribute("books", bookDao.getAll());
-
-        return "book/bookList";
+        model.addAttribute("books", bookService.findRandomBooks());
+        return "book/bookHome";
     }
 
     @RequestMapping(value = "p", method = RequestMethod.POST)
     public String add(Book book) {
-        //bookDao.add(book);
-        //bookService.addBook(Book book)
+        bookService.addBook(book);
         return "redirect:/book/";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String openPage() {
+    public String openAddPage() {
         return "book/addBook";
+    }
+
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    public String search(String bookSearch, String categorySearch, Model model) {
+        // TODO: Nazanin
+        model.addAttribute("books", bookService.findRandomBooks());
+        //return "redirect:/book/bookList";
+        return "book/bookList";
+    }
+
+    @RequestMapping(value = "search", method = RequestMethod.GET)
+    public String openSearchPage() {
+        return "book/search";
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
     public String get(@PathVariable int id, Model model) {
-        //model.addAttribute("book", bookDao.get(id));
+        model.addAttribute("book", bookService.findBook(id));
+        return "book/updateBook";
+    }
+
+    @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+    public String view(@PathVariable int id, Model model) {
+        model.addAttribute("book", bookService.findBook(id));
         return "book/bookDetail";
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
     public String update(Book book, @PathVariable int id) {
-        //bookDao.update(id, book);
-        //bookService.updateBook(Book book)
+        bookService.updateBook(book);
         return "redirect:/book/";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable int id) {
-        //bookDao.delete(id);
-        //bookService.deleteBook(Book book)
+        //bookService.deleteBook();
         return "redirect:/book/";
     }
 

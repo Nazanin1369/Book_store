@@ -32,7 +32,7 @@ import edu.mum.ea.bookstore.dao.OrderDao;
  *
  */
 @Service("bookstoreService")
-@Transactional(readOnly = true)
+@Transactional
 public class BookstoreServiceImpl implements BookstoreService {
 
     private static final int RANDOM_BOOKS = 2;

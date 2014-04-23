@@ -44,7 +44,7 @@
     <!-- Forwards requests to the "/addCar" resource to the "addCar" view --> 
     <mvc:view-controller path="/index" view-name="index"/>
     <mvc:view-controller path="/login" view-name="login"/>
-	
+        	
     <!-- Lets us find resources (.html etc) through the default servlet -->
     <mvc:default-servlet-handler/> 
 
