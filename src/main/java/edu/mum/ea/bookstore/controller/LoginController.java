@@ -10,6 +10,8 @@ import edu.mum.ea.bookstore.domain.Account;
 import edu.mum.ea.bookstore.domain.Role;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  *
  * @author dipesh
  */
-
 @Controller
 @SessionAttributes("user")
 public class LoginController {
@@ -42,10 +43,19 @@ public class LoginController {
 //        }
 //        return "/";
 //    }
-    
-        
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String openAdminPage() {
         return "/admin";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String invalidate(HttpSession session, Model model) {
+        session.invalidate();
+        SecurityContextHolder.getContext().setAuthentication(null);
+        if (model.containsAttribute("cart")) {
+            model.asMap().remove("cart");
+        }
+        return "redirect:/";
     }
 }

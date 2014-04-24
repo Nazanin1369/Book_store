@@ -22,7 +22,7 @@
     <sec:global-method-security secured-annotations="enabled"/>  
 
     <sec:http>     
-         <sec:form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" 
+         <sec:form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=true" 
                     default-target-url="/book/"/>
         <sec:logout logout-success-url="/index.jsp"/> 
         <!-- ROLE_CUSTOMER and ROLE_ADMIN -->      

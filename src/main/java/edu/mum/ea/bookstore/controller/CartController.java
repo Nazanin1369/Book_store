@@ -15,10 +15,10 @@ import edu.mum.ea.bookstore.service.AccountService;
 import edu.mum.ea.bookstore.service.BookstoreService;
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.Resource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  * @author dipesh
  */
 @Controller
-@SessionAttributes(value = {"cart", "user"})
+@SessionAttributes(value = {"cart", "account"})
 @RequestMapping("/cart")
 @Transactional
 public class CartController {
@@ -63,7 +63,9 @@ public class CartController {
 
         if (!map.containsAttribute("account")) {
             // TODO: FIX
-            account = accountService.getAccount("jack");
+            String userName = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            account = accountService.getAccount(userName);
+            //account = accountService.getAccount("jack");
         } else {
             account = (Account) map.get("account");
         }
