@@ -42,12 +42,13 @@ public class SearchDao {
         //fullTextSession.close();
     }
 
-    public List<Book> searchForBook(String title, String category) {
+    public List<Book> searchForBook(String title) {
 
         FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
 
         QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Book.class).get();
-        org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword().onFields("title", "author").matching(title).createQuery();
+        org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword().onFields("title", "author")
+                .matching(title).createQuery();
 
         // wrap Lucene query in a javax.persistence.Query
         org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, Book.class);

@@ -8,13 +8,10 @@ package edu.mum.ea.bookstore.domain;
 
 /**
  * Object to hold the search criteria to search books.
- * 
- * 
  * @author Nazanin
- *
  */
 public class BookSearchCriteria {
-
+    
     private String title;
     private Category category;
 
@@ -33,5 +30,5 @@ public class BookSearchCriteria {
     public Category getCategory() {
         return this.category;
     }
-
+    
 }

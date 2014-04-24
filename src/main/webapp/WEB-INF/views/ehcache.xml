@@ -15,4 +15,3 @@
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off" />
 
 </ehcache>
-s

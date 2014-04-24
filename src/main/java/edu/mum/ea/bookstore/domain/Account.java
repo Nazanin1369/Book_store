@@ -24,7 +24,6 @@ import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 
 /**
  * A account resembles an authenticated user of our system. A account is able to submit orders.
@@ -41,14 +40,14 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Valid
+    @NotEmpty
     private String firstName;
+    @NotEmpty
     private String lastName;
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
     @Embedded
-   
     private Address address = new Address();
 
     @NotEmpty

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -51,17 +50,18 @@ public class BookController {
     public String openAddPage() {
         return "book/addBook";
     }
-
+    /*
+    * using lucene search to find related books to the search query
+    * @author nazanin
+    */
     @RequestMapping(value = "search_result", method = RequestMethod.GET)
-    public String searchByBook(String title, String category, Model model) {
+    public String searchByBook(String title, Model model) {
         // TODO: Nazanin
         List<Book> books = new ArrayList<Book>();
         title = title.trim();
-        category = category.trim();
-        
         try{
             searchDao.doIndex();
-            books = searchDao.searchForBook(title, category);
+            books = searchDao.searchForBook(title);
         }
         catch(InterruptedException e){
             e.printStackTrace();
