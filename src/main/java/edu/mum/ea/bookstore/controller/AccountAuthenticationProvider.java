@@ -6,7 +6,9 @@
 package edu.mum.ea.bookstore.controller;
 
 import edu.mum.ea.bookstore.domain.Account;
+import edu.mum.ea.bookstore.domain.Role;
 import edu.mum.ea.bookstore.service.AccountService;
+import edu.mum.ea.bookstore.service.AccountServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +16,37 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  *
  * @author dipesh
  */
+@Component
+@SessionAttributes("account")
 public class AccountAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private AccountService accountService;
 
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+    
     @Override
     public Authentication authenticate(Authentication a) throws AuthenticationException {
         String username = a.getName();
         String password = a.getCredentials().toString();
+        Account account = null;
         try {
-            Account account = this.accountService.login(username, password);
+            account = this.accountService.login(username, password);
+            if(account == null) return null;
 
         } catch (edu.mum.ea.bookstore.service.AuthenticationException ex) {
             Logger.getLogger(AccountAuthenticationProvider.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
         // TODO : Session works
         return a;
     }

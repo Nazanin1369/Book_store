@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.ea.bookstore.domain.Account;
 import edu.mum.ea.bookstore.dao.AccountDao;
+import edu.mum.ea.bookstore.dao.AccountDaoImpl;
 
 /**
  * @see AccountService
@@ -20,12 +21,16 @@ import edu.mum.ea.bookstore.dao.AccountDao;
  * 
  *
  */
-@Service
+@Service("accountService")
 @Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountDao accountRepository;
+
+    public void setAccountRepository(AccountDao accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
 	@Override
 	@Transactional(readOnly = false)

@@ -29,7 +29,7 @@ public class DataLoadController {
     public DataLoadController(){
         
     }
-    @PostConstruct
+    //@PostConstruct
     public void initialize(){
         loader.setUpData();
     }

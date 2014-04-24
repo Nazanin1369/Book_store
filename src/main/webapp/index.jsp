@@ -12,5 +12,6 @@
         <a href="account/">account</a><br/>
         <a href="login.jsp">Login</a><br/>
         <a href="register.jsp">Registration</a><br/>
+        <a href="admin/">Admin Page</a><br/>
     </body>
 </html>

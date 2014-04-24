@@ -49,6 +49,7 @@ public class OrderDaoImpl implements OrderDao {
         // By calling merge we can save transient objects and re-attach detached
         // objects automatically.
         this.sessionFactory.getCurrentSession().saveOrUpdate(order);
+//        this.sessionFactory.getCurrentSession().merge(order);
         return order;
 
     }

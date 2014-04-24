@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 /**
  * 
@@ -28,7 +29,12 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "role" }) })
 public class Role implements Serializable {
 
-	@Id
+        @Transient
+        public static final String ADMIN = "ROLE_ADMIN";
+        @Transient
+        public static final String CUSTOMER = "ROLE_CUSTOMER";
+        
+        @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 

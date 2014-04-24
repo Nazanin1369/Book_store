@@ -46,6 +46,15 @@ public class BookController {
         return "redirect:/book/";
     }
 
+    /**
+     * Only Admin access
+     * @return 
+     */
+    @RequestMapping(value = "manage", method = RequestMethod.GET)
+    public String openManagePage() {
+        return "book/bookAdmin";
+    }
+    
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String openAddPage() {
         return "book/addBook";

@@ -16,12 +16,16 @@
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+    <mvc:annotation-driven />
+    <context:component-scan base-package="edu.mum.ea.bookstore"/>
+
     <sec:global-method-security secured-annotations="enabled"/>  
 
     <sec:http>     
-         <sec:form-login login-page="/login.jsp" authentication-failure-url="/loginfailed" 
-                    default-target-url="/success"/>
-        <sec:logout logout-success-url="/index.jsp"/>       
+         <sec:form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" 
+                    default-target-url="/book/"/>
+        <sec:logout logout-success-url="/index.jsp"/> 
+        <!-- ROLE_CUSTOMER and ROLE_ADMIN -->      
         <!--
         <sec:intercept-url pattern="/cars" access="ROLE_ADMIN" method="POST"/>
         <sec:intercept-url pattern="/books" access="ROLE_ADMIN" method="POST"/>
@@ -31,9 +35,7 @@
     </sec:http>
     
 <sec:authentication-manager>
-    <sec:authentication-provider ref="customAuthenticationProvider"/>
+    <sec:authentication-provider ref="accountAuthenticationProvider"/>
 </sec:authentication-manager>
-    
-<bean id="customAuthenticationProvider" class = "edu.mum.ea.bookstore.controller.AccountAuthenticationProvider"/>
-      
+ 
 </beans>

@@ -65,8 +65,8 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/bookstore" />
         <property name="username" value="root" />
-        <property name="password" value="8706123" />
-       <!-- <property name="password" value="dipesh28" />-->
+        <!--<property name="password" value="8706123" />-->
+        <property name="password" value="dipesh28" />
     </bean>
 
     <!-- hibernate Properties -->
@@ -74,7 +74,7 @@
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="connection.pool_size">1</prop>
                 <prop key="hibernate.show_sql">true</prop>
