@@ -5,9 +5,14 @@
  */
 package edu.mum.ea.bookstore.controller;
 
+import edu.mum.ea.bookstore.dao.SearchDao;
 import edu.mum.ea.bookstore.domain.Book;
+import edu.mum.ea.bookstore.domain.Category;
 import edu.mum.ea.bookstore.service.BookstoreService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -26,6 +32,8 @@ public class BookController {
 
     @Resource
     private BookstoreService bookService;
+    @Autowired
+    private SearchDao searchDao;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getAll(Model model) {
@@ -44,11 +52,21 @@ public class BookController {
         return "book/addBook";
     }
 
-    @RequestMapping(value = "search", method = RequestMethod.POST)
-    public String search(String bookSearch, String categorySearch, Model model) {
+    @RequestMapping(value = "search_result", method = RequestMethod.GET)
+    public String searchByBook(String title, String category, Model model) {
         // TODO: Nazanin
-        model.addAttribute("books", bookService.findRandomBooks());
-        //return "redirect:/book/bookList";
+        List<Book> books = new ArrayList<Book>();
+        title = title.trim();
+        category = category.trim();
+        
+        try{
+            searchDao.doIndex();
+            books = searchDao.searchForBook(title, category);
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        model.addAttribute("books",books);
         return "book/bookList";
     }
 

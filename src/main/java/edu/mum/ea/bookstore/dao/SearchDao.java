@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ *This class using Lucene Hibernate search to search for book and category
  * @author Nazanin
  */
 @Repository("bookSearch")
-@Transactional(propagation=Propagation.MANDATORY)
+@Transactional(propagation=Propagation.REQUIRES_NEW)
 public class SearchDao {
     @Autowired
     private SessionFactory sessionFactory;
@@ -31,21 +31,23 @@ public class SearchDao {
         this.sessionFactory = sessionFactory;
     }
     public SearchDao(){}
-    
-    private void doIndex() throws InterruptedException {
+    /*
+    * Create an initial Lucene index for the data already present in the database
+    */
+    public void doIndex() throws InterruptedException {
 
         FullTextSession fullTextSession;
         fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
         fullTextSession.createIndexer().startAndWait();
-        fullTextSession.close();
+        //fullTextSession.close();
     }
 
-    private List<Book> searchForBook(String queryString) {
+    public List<Book> searchForBook(String title, String category) {
 
         FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
 
         QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Book.class).get();
-        org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword().onFields("title", "author").matching(queryString).createQuery();
+        org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword().onFields("title", "author").matching(title).createQuery();
 
         // wrap Lucene query in a javax.persistence.Query
         org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, Book.class);
@@ -55,7 +57,7 @@ public class SearchDao {
         return bookList;
     }
     
-     private List<Book> searchForCategory(String queryString) {
+     public  List<Category> searchForCategory(String queryString) {
 
         FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
 
@@ -64,9 +66,8 @@ public class SearchDao {
 
         // wrap Lucene query in a javax.persistence.Query
         org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, Category.class);
-        List<Book> categoryList = fullTextQuery.list();
+        List<Category> categoryList = fullTextQuery.list();
         fullTextSession.close();
-
         return categoryList;
     }
 }

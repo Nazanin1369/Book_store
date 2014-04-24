@@ -5,12 +5,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>bookstore</title>
     </head>
     <body>
         <a href="book/">book</a><br/>
         <a href="account/">account</a><br/>
         <a href="login.jsp">Login</a><br/>
-        
+        <a href="register.jsp">Registration</a><br/>
     </body>
 </html>

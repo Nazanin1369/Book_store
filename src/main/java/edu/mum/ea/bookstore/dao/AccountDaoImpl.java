@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.mum.ea.bookstore.domain.Account;
+import edu.mum.ea.bookstore.domain.Role;
+import edu.mum.ea.bookstore.domain.support.DataInitializer;
+import java.util.ArrayList;
+import java.util.Date;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +26,17 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Repository("accountDao")
-@Transactional(propagation=Propagation.MANDATORY)
+@Transactional(propagation = Propagation.MANDATORY)
 public class AccountDaoImpl implements AccountDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-    @Transactional(propagation=Propagation.SUPPORTS)
+
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    
+
     @Override
     public Account findByUsername(String username) {
         String hql = "select c from Account c where c.username=:username";
@@ -47,14 +52,18 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public Account save(Account account) {
-        if (account.getId() != null) {
-            this.sessionFactory.getCurrentSession().saveOrUpdate(account);
-            return account;
-        } else {
-            this.sessionFactory.getCurrentSession().save(account);
-            return account;
-        }
+    public Account save(String firstName, String lastName, String dateOfBirth,
+            String email, String username, String password) {
+        Account account = new Account();
+        DataInitializer in = new DataInitializer();
+        account.setFirstName(firstName);
+        account.setLastName(lastName);
+        account.setDateOfBirth(new Date(dateOfBirth));
+        account.setEmailAddress(email);
+        in.credentials(account, username, password);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(account);
+        return account;
+
     }
 
 }

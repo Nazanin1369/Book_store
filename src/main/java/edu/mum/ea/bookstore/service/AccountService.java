@@ -18,7 +18,8 @@ import edu.mum.ea.bookstore.domain.Account;
  */
 public interface AccountService {
 
-    Account save(Account account);
+    Account save(String firstName, String lastName,String dateOfBirth,
+                String email, String username, String password);
 
     /**
      * Handles the login logic. If the {@link Account} can be retrieved and the password is correct we get the

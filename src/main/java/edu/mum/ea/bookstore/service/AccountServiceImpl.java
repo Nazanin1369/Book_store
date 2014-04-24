@@ -29,8 +29,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public Account save(Account account) {
-		return this.accountRepository.save(account);
+	public Account save(String firstName, String lastName,String dateOfBirth,
+                String email, String username, String password) {
+            
+	return this.accountRepository.save(firstName,  lastName, dateOfBirth, email,  username,  password);
 	}
 
 	@Override

@@ -20,6 +20,7 @@ public interface AccountDao {
 
     Account findById(long id);
 
-    Account save(Account account);
+    Account save(String firstName, String lastName,String dateOfBirth,
+                String email, String username, String password);
 
 }
